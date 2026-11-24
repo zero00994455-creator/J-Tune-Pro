@@ -1,4 +1,5 @@
 #include "PluginEditor.h"
+#include <cmath>
 
 JTuneAudioProcessorEditor::JTuneAudioProcessorEditor(JTuneAudioProcessor& p)
     : AudioProcessorEditor(&p),
@@ -9,7 +10,7 @@ JTuneAudioProcessorEditor::JTuneAudioProcessorEditor(JTuneAudioProcessor& p)
       retuneAtt(p.apvts, "retuneSpeed", retuneSlider),
       flexAtt(p.apvts, "flexTune", flexSlider),
       humanizeAtt(p.apvts, "humanize", humanizeSlider),
-      formantAtt(p.apvts, "formant", formantSlider),
+      formantsAtt(p.apvts, "formants", formantsSlider),
       vibratoAtt(p.apvts, "vibrato", vibratoSlider),
       outputAtt(p.apvts, "outputGain", outputSlider) {
 
@@ -39,7 +40,7 @@ JTuneAudioProcessorEditor::JTuneAudioProcessorEditor(JTuneAudioProcessor& p)
     setupRotary(retuneSlider, " ms");
     setupRotary(flexSlider, " %");
     setupRotary(humanizeSlider, " %");
-    setupRotary(formantSlider, " %");
+    setupRotary(formantsSlider, " %");
     setupRotary(vibratoSlider, " %");
     setupRotary(outputSlider, " dB");
 
@@ -70,7 +71,7 @@ void JTuneAudioProcessorEditor::paint(juce::Graphics& g) {
     g.setColour(juce::Colour(0xff130a22));
     g.fillRect(0, 0, getWidth(), 48);
     g.setColour(juce::Colour(0xffa855f7));
-    g.setFont(juce::Font(22.0f, juce::Font::bold));
+    g.setFont(juce::Font(juce::FontOptions(22.0f).withStyle("Bold")));
     g.drawText("J-TUNE  |  VOCAL AUTO-TUNE", 20, 8, 340, 32, juce::Justification::left);
 
     // กรอบคอลัมน์ซ้าย / กลาง / ขวา
@@ -81,7 +82,7 @@ void JTuneAudioProcessorEditor::paint(juce::Graphics& g) {
 
     // ป้ายกำกับหมวดหมู่
     g.setColour(juce::Colour(0xffd8b4fe));
-    g.setFont(juce::Font(12.0f, juce::Font::bold));
+    g.setFont(juce::Font(juce::FontOptions(12.0f).withStyle("Bold")));
     g.drawText("KEY & SCALE", 28, 68, 200, 18, juce::Justification::left);
     g.drawText("RETUNE SPEED", 28, 172, 105, 18, juce::Justification::centred);
     g.drawText("FLEX-TUNE", 135, 172, 105, 18, juce::Justification::centred);
@@ -106,15 +107,15 @@ void JTuneAudioProcessorEditor::paint(juce::Graphics& g) {
 
     const float cents = audioProcessor.currentCentsError.load();
     g.setColour(juce::Colours::white);
-    g.setFont(juce::Font(34.0f, juce::Font::bold));
+    g.setFont(juce::Font(juce::FontOptions(34.0f).withStyle("Bold")));
     g.drawText(juce::String(cents, 1), (int)(cx - 70), (int)(cy - 28), 140, 38, juce::Justification::centred);
 
     g.setColour(juce::Colour(0xffd8b4fe));
-    g.setFont(juce::Font(13.0f));
+    g.setFont(juce::Font(juce::FontOptions(13.0f)));
     g.drawText("CENTS", (int)(cx - 50), (int)(cy + 8), 100, 18, juce::Justification::centred);
 
     g.setColour(juce::Colour(0xffa855f7));
-    g.setFont(juce::Font(12.0f, juce::Font::bold));
+    g.setFont(juce::Font(juce::FontOptions(12.0f).withStyle("Bold")));
     g.drawText(std::abs(cents) < 5.0f ? "LOCKED" : "TUNING", (int)(cx - 50), (int)(cy + 28), 100, 18, juce::Justification::centred);
 
     // แถบคีย์บอร์ดด้านล่างไฮไลต์โน้ตตาม 4 สเกลที่เลือก
@@ -147,7 +148,7 @@ void JTuneAudioProcessorEditor::resized() {
 
     latencyBox.setBounds(722, 82, 230, 28);
     humanizeSlider.setBounds(722, 194, 112, 90);
-    formantSlider.setBounds(842, 194, 112, 90);
+    formantsSlider.setBounds(842, 194, 112, 90);
     vibratoSlider.setBounds(722, 304, 112, 90);
     outputSlider.setBounds(842, 304, 112, 90);
 }
