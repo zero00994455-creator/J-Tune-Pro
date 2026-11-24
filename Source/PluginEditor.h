@@ -23,7 +23,7 @@ private:
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
     using ComboAttachment = juce::AudioProcessorValueTreeState::ComboAttachment;
 
-    ComboAttachment keyAtt, scaleAtt, latencyAtt;
+    ComboBoxAttachment keyAtt, scaleAtt, latencyAtt;
     SliderAttachment retuneAtt, flexAtt, humanizeAtt, formantAtt, vibratoAtt, outputAtt;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(JTuneAudioProcessorEditor)
